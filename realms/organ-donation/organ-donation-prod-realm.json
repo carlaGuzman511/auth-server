@@ -1,0 +1,122 @@
+{
+  "realm": "organ-donation-prod",
+  "enabled": true,
+  "displayName": "Organ Donation Production",
+  "registrationAllowed": false,
+  "resetPasswordAllowed": true,
+  "rememberMe": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+
+  "roles": {
+    "realm": [
+      {
+        "name": "user",
+        "description": "Standard application user"
+      },
+      {
+        "name": "admin",
+        "description": "Application administrator"
+      }
+    ]
+  },
+
+  "clients": [
+    {
+      "clientId": "organ-donation-web",
+      "name": "Organ Donation Web",
+      "enabled": true,
+
+      "protocol": "openid-connect",
+
+      "publicClient": true,
+
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+
+      "redirectUris": [
+        "https://YOUR-PRODUCTION-WEB-DOMAIN/*"
+      ],
+
+      "webOrigins": [
+        "https://YOUR-PRODUCTION-WEB-DOMAIN"
+      ],
+
+      "protocolMappers": [
+        {
+          "name": "organ-donation-api-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+
+          "config": {
+            "included.client.audience": "organ-donation-api",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "introspection.token.claim": "true",
+            "lightweight.claim": "false"
+          }
+        }
+      ]
+    },
+
+    {
+      "clientId": "organ-donation-mobile",
+      "name": "Organ Donation Mobile",
+      "enabled": true,
+
+      "protocol": "openid-connect",
+
+      "publicClient": true,
+
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+
+      "attributes": {
+        "pkce.code.challenge.method": "S256"
+      },
+
+      "redirectUris": [
+        "organ-donation://oauth/callback"
+      ],
+
+      "protocolMappers": [
+        {
+          "name": "organ-donation-api-audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+
+          "config": {
+            "included.client.audience": "organ-donation-api",
+            "id.token.claim": "false",
+            "access.token.claim": "true",
+            "introspection.token.claim": "true",
+            "lightweight.claim": "false"
+          }
+        }
+      ]
+    },
+
+    {
+      "clientId": "organ-donation-api",
+      "name": "Organ Donation API",
+      "enabled": true,
+
+      "protocol": "openid-connect",
+
+      "publicClient": false,
+
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false
+    }
+  ]
+}
