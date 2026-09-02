@@ -41,11 +41,13 @@
       },
 
       "redirectUris": [
-        "https://YOUR-PRODUCTION-WEB-DOMAIN/*"
+        "https://blood-marrow-organs-bone-an-git-2d7ac4-carlaguzman511s-projects.vercel.app/*",
+        "http://localhost:4200/*"
       ],
 
       "webOrigins": [
-        "https://YOUR-PRODUCTION-WEB-DOMAIN"
+        "https://blood-marrow-organs-bone-an-git-2d7ac4-carlaguzman511s-projects.vercel.app",
+        "http://localhost:4200"
       ],
 
       "protocolMappers": [
@@ -84,7 +86,7 @@
       },
 
       "redirectUris": [
-        "organ-donation://oauth/callback"
+        "myapp://auth"
       ],
 
       "protocolMappers": [
