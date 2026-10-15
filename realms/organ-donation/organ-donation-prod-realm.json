@@ -21,6 +21,24 @@
     ]
   },
 
+  "identityProviders": [
+    {
+      "alias": "google",
+      "providerId": "google",
+      "enabled": true,
+      "trustEmail": true,
+      "storeToken": false,
+      "addReadTokenRoleOnCreate": false,
+      "firstBrokerLoginFlowAlias": "first broker login",
+      "config": {
+        "clientId": "REPLACE_WITH_GOOGLE_OAUTH_CLIENT_ID",
+        "clientSecret": "REPLACE_WITH_GOOGLE_OAUTH_CLIENT_SECRET",
+        "syncMode": "IMPORT",
+        "useJwksUrl": "true"
+      }
+    }
+  ],
+
   "clients": [
     {
       "clientId": "organ-donation-web",

@@ -1,4 +1,25 @@
+# Local development only. Production runs from the Dockerfile on Render with its
+# own environment variables -- this file must never point at the production DB.
 services:
+  postgres:
+    image: postgres:16-alpine
+
+    container_name: identity-server-postgres
+
+    environment:
+      POSTGRES_DB: identity-server
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+
+    volumes:
+      - identity-server-pgdata:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U keycloak -d identity-server"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   keycloak:
     build:
       context: .
@@ -6,10 +27,26 @@ services:
 
     container_name: identity-server-keycloak
 
-    command: start-dev
+    command: start-dev --import-realm
 
     env_file:
-      - .env
+      - .env.local
+
+    # Keycloak takes the database from KC_DB_URL (not KC_DB), so the DB settings
+    # are pinned here. `environment` overrides `env_file`, which guarantees the
+    # local container always uses the local postgres service, whatever .env.local says.
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/identity-server
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+
+    depends_on:
+      postgres:
+        condition: service_healthy
 
     ports:
       - "8080:8080"
+
+volumes:
+  identity-server-pgdata:
